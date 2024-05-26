@@ -33,6 +33,12 @@ function updateValue(e: Event) {
   padding: 1rem;
   border-radius: 8px;
   flex: 1;
-  border: 1px solid var(--gray-700);
+  border: 0px;
+  box-shadow: 0 0 0 1px var(--gray-700);
+  transition: box-shadow 50ms;
+}
+
+.form-input:focus {
+  box-shadow: 0 0 0 2px var(--green-500);
 }
 </style>

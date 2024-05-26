@@ -24,6 +24,9 @@ import { PhPlusCircle } from '@phosphor-icons/vue'
   font-size: 0.875rem;
   transition: background-color 0.1s;
   cursor: pointer;
+  transition:
+    background-color 50ms,
+    outline 50ms;
 }
 
 .submit-button:disabled {
@@ -32,6 +35,13 @@ import { PhPlusCircle } from '@phosphor-icons/vue'
 }
 
 .submit-button:not(:disabled):hover {
+  background-color: var(--green-300);
+}
+
+.submit-button:focus {
+  box-shadow: none;
+  outline: 2px solid var(--green-300);
+  outline-offset: 2px;
   background-color: var(--green-300);
 }
 </style>

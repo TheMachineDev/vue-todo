@@ -3,7 +3,7 @@ import { PhCheck, PhTrash } from '@phosphor-icons/vue'
 import type { ITodo } from '@/App.vue'
 import { toRefs } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   todo: ITodo
 }>()
 
@@ -99,14 +99,6 @@ defineEmits(['toggle-todo', 'delete-todo'])
   text-decoration: line-through;
 }
 
-.container div:hover .paragraph:not(.paragraph-checked) {
-  color: var(--gray-200);
-}
-
-.container div:hover .checkbox:not(.checkbox-checked) {
-  background-color: var(--blue-500);
-}
-
 .checkbox {
   overflow: hidden;
   display: flex;
@@ -117,11 +109,17 @@ defineEmits(['toggle-todo', 'delete-todo'])
   border: 2px solid var(--blue-300);
   width: 1.1rem;
   height: 1.1rem;
+  outline-offset: 1px;
 }
 
-/* .checkbox:not(.checkbox-checked):hover {
-  background-color: var(--blue-300);
-} */
+.container input[type='checkbox']:focus + label .checkbox {
+  outline: 1px solid var(--green-300);
+}
+
+.container input[type='checkbox']:focus + label .checkbox:not(.checkbox-checked) {
+  outline-color: var(--blue-500);
+  background-color: var(--blue-500);
+}
 
 .checkbox-checked {
   background-color: var(--green-500);
@@ -148,34 +146,11 @@ defineEmits(['toggle-todo', 'delete-todo'])
     border-color 150ms;
 }
 
-/* .container input[type='checkbox']:focus + label span {
-  outline: 2px solid var(--purple-300);
+.container div:hover .paragraph:not(.paragraph-checked) {
+  color: var(--gray-200);
 }
 
-.container span:hover,
-.container input[type='checkbox']:hover + label span {
+.container div:hover .checkbox:not(.checkbox-checked) {
   background-color: var(--blue-500);
 }
-
-.container input[type='checkbox']:checked + label span {
-  background-color: var(--purple-500);
-  border-color: var(--purple-500);
-}
-
-.container input[type='checkbox']:checked + label span .check {
-  opacity: 1;
-}
-
-.container input[type='checkbox']:checked:hover + label span {
-  /* .checkboxContainer input[type="checkbox"]:checked:hover + label span .checkCircle 
-  background-color: var(--purple-300);
-  border-color: var(--purple-300);
-}
-
-.container input[type='checkbox']:checked + label {
-  color: var(--gray-300);
-  text-decoration: line-through;
-}
- 
-*/
 </style>

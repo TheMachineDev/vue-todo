@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, toRefs } from 'vue'
+import { computed, onMounted, reactive, ref, toRefs, watch } from 'vue'
 import Header from './components/Header.vue'
 import Input from './components/Input.vue'
 import Button from './components/Button.vue'
@@ -15,8 +15,16 @@ export interface ITodo {
 }
 
 // Refs
-const todos = reactive<ITodo[]>([])
+const todos = reactive<ITodo[]>(
+  JSON.parse(localStorage.getItem('@vue-todo:todos-state-1.0.0') || '[]')
+)
 const inputValue = ref('')
+
+// Watchers
+watch(todos, (newTodos: ITodo[]) => {
+  const stateJSON = JSON.stringify(newTodos)
+  localStorage.setItem('@vue-todo:todos-state-1.0.0', stateJSON)
+})
 
 // Functions
 function handleCreateTodo() {
