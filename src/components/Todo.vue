@@ -1,23 +1,42 @@
 <script setup lang="ts">
-import { PhCheckCircle, PhTrash } from '@phosphor-icons/vue'
+import { PhCheck, PhTrash } from '@phosphor-icons/vue'
+import type { ITodo } from '@/App.vue'
+import { toRefs } from 'vue'
+
+const props = defineProps<{
+  todo: ITodo
+}>()
+
+defineEmits(['toggle-todo', 'delete-todo'])
 </script>
 
 <template>
-  <div class="todo">
-    <div class="checkboxContainer">
-      <input type="checkbox" readOnly />
-      <label for="">
-        <span><PhCheckCircle class="checkCircle" weight="regular" :size="24" /></span>
+  <div class="container">
+    <div>
+      <input
+        :id="todo.id"
+        type="checkbox"
+        readOnly
+        :checked="todo.isCompleted"
+        @click="$emit('toggle-todo', todo.id, !todo.isCompleted)"
+      />
+      <label :for="todo.id">
+        <span class="checkbox" :class="{ 'checkbox-checked': todo.isCompleted }"
+          ><PhCheck class="check" v-if="todo.isCompleted" weight="bold" :size="12"
+        /></span>
+        <p class="paragraph" :class="{ 'paragraph-checked': todo.isCompleted }">
+          {{ todo.content }}
+        </p>
       </label>
     </div>
-    <button title="Deletar tarefa">
+    <button title="Deletar tarefa" @click="$emit('delete-todo', todo.id)">
       <PhTrash :size="16" weight="bold" />
     </button>
   </div>
 </template>
 
 <style scoped>
-.todo {
+.container {
   width: 100%;
   display: flex;
   align-items: start;
@@ -29,7 +48,7 @@ import { PhCheckCircle, PhTrash } from '@phosphor-icons/vue'
   outline: 1px solid var(--gray-400);
 }
 
-.todo button {
+.container button {
   background: none;
   border: 0;
   color: var(--gray-300);
@@ -44,94 +63,119 @@ import { PhCheckCircle, PhTrash } from '@phosphor-icons/vue'
     color 0.1s;
 }
 
-.todo button:hover {
+.container button:hover {
   background-color: var(--gray-400);
   color: var(--danger);
 }
 
-.checkboxContainer {
+.container div:first-child {
   display: flex;
   align-items: start;
   gap: 0.75rem;
   font-size: 0.875rem;
 }
 
-.checkboxContainer label {
-  line-height: 1.4;
+.container input[type='checkbox'] {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+}
+
+.container label {
   display: flex;
   gap: 0.75rem;
   cursor: pointer;
+}
+
+.paragraph {
+  line-height: 1.4;
+  margin-top: -1.4px;
   line-break: anywhere;
-  transition:
-    color 150ms,
-    text-decoration 150ms;
+  user-select: none;
 }
 
-.checkboxContainer input[type='checkbox'] {
-  cursor: pointer;
-  opacity: 0;
-  position: absolute;
+.paragraph-checked {
+  color: var(--gray-300);
+  text-decoration: line-through;
 }
 
-.checkboxContainer span {
-  overflow: hidden;
-  flex: none;
-  width: 1.1rem;
-  height: 1.1rem;
-  border-radius: 50%;
-  border: 2px solid var(--blue-300);
-  margin: 0.2rem;
-  box-sizing: border-box;
-  position: relative;
-  outline-offset: 2px;
-  transition:
-    background-color 150ms,
-    border-color 150ms;
-  -moz-transition:
-    background-color 50ms,
-    border-color 50ms;
+.container div:hover .paragraph:not(.paragraph-checked) {
+  color: var(--gray-200);
 }
 
-.checkCircle {
-  position: absolute;
-  inset: 50%;
-  translate: -50% -50%;
-  border-radius: 50%;
-  opacity: 0;
-  color: var(--gray-100);
-  line-height: 0;
-  display: flex;
-  align-items: stretch;
-  transition: opacity 150ms;
-  -moz-transition: opacity 50ms;
-}
-
-.checkboxContainer input[type='checkbox']:focus + label span {
-  outline: 2px solid var(--purple-300);
-}
-
-.checkboxContainer span:hover,
-.checkboxContainer input[type='checkbox']:hover + label span {
+.container div:hover .checkbox:not(.checkbox-checked) {
   background-color: var(--blue-500);
 }
 
-.checkboxContainer input[type='checkbox']:checked + label span {
+.checkbox {
+  overflow: hidden;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--blue-300);
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* .checkbox:not(.checkbox-checked):hover {
+  background-color: var(--blue-300);
+} */
+
+.checkbox-checked {
+  background-color: var(--green-500);
+  border-color: var(--green-500);
+}
+
+.check {
+  color: var(--gray-100);
+  opacity: 0;
+  transition: opacity 150ms;
+  -moz-transition: opacity 150ms;
+}
+
+.checkbox-checked .check {
+  opacity: 1;
+}
+
+.paragraph,
+.checkbox {
+  transition:
+    color 150ms,
+    background-color 150ms,
+    text-decoration 150ms,
+    border-color 150ms;
+}
+
+/* .container input[type='checkbox']:focus + label span {
+  outline: 2px solid var(--purple-300);
+}
+
+.container span:hover,
+.container input[type='checkbox']:hover + label span {
+  background-color: var(--blue-500);
+}
+
+.container input[type='checkbox']:checked + label span {
   background-color: var(--purple-500);
   border-color: var(--purple-500);
 }
 
-.checkboxContainer input[type='checkbox']:checked + label span .checkCircle {
+.container input[type='checkbox']:checked + label span .check {
   opacity: 1;
 }
 
-.checkboxContainer input[type='checkbox']:checked:hover + label span {
-  /* .checkboxContainer input[type="checkbox"]:checked:hover + label span .checkCircle */
+.container input[type='checkbox']:checked:hover + label span {
+  /* .checkboxContainer input[type="checkbox"]:checked:hover + label span .checkCircle 
   background-color: var(--purple-300);
   border-color: var(--purple-300);
 }
 
-.checkboxContainer input[type='checkbox']:checked + label {
+.container input[type='checkbox']:checked + label {
   color: var(--gray-300);
   text-decoration: line-through;
 }
+ 
+*/
 </style>

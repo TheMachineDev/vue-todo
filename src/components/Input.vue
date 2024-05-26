@@ -17,7 +17,7 @@ function updateValue(e: Event) {
 
 <template>
   <input
-    class="formInput"
+    class="form-input"
     placeholder="Adicione uma tarefa"
     :value="modelValue"
     @input="updateValue"
@@ -25,7 +25,7 @@ function updateValue(e: Event) {
 </template>
 
 <style scoped>
-.formInput {
+.form-input {
   width: 100%;
   background-color: var(--gray-500);
   color: var(--gray-100);

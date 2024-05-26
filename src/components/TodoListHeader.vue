@@ -16,12 +16,12 @@ defineProps<{
 </script>
 
 <template>
-  <header class="listHeader">
-    <div class="todoCounter">
+  <header class="header">
+    <div class="counter">
       <p>Tarefas criadas</p>
       <span>{{ todosCount }}</span>
     </div>
-    <div class="todoCounter">
+    <div class="counter">
       <p>Concluídas</p>
       <span v-if="todosCount > 0">{{ completedTodosCount + ' de ' + todosCount }}</span>
       <span v-else>0</span>
@@ -30,28 +30,28 @@ defineProps<{
 </template>
 
 <style scoped>
-.listHeader {
+.header {
   display: flex;
   justify-content: space-between;
 }
 
-.todoCounter {
+.counter {
   display: flex;
   align-items: center;
   font-weight: bold;
   gap: 8px;
 }
 
-.todoCounter:nth-child(2) p {
-  color: var(--purple-300);
+.counter:nth-child(2) p {
+  color: var(--green-300);
 }
 
-.todoCounter p {
+.counter p {
   font-size: 0.875rem;
   color: var(--blue-300);
 }
 
-.todoCounter span {
+.counter span {
   font-size: 0.75rem;
   background-color: var(--gray-400);
   padding: 0.125rem 0.5rem;

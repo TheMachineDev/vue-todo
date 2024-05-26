@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref, toRefs } from 'vue'
 import Header from './components/Header.vue'
 import Input from './components/Input.vue'
 import Button from './components/Button.vue'
@@ -24,12 +24,21 @@ function handleCreateTodo() {
     const newTodo = {
       id: String(new Date().getTime()),
       content: inputValue.value,
-      isCompleted: true
+      isCompleted: false
     }
     todos.push(newTodo)
     inputValue.value = ''
   }
-  console.log(todos)
+}
+
+function handleToggleTodoStatus(id: string, value: boolean) {
+  const i = todos.findIndex((todo) => todo.id === id)
+  todos[i].isCompleted = value
+}
+
+function handleDeleteTodo(id: string) {
+  const i = todos.findIndex((todo) => todo.id === id)
+  todos.splice(i, 1)
 }
 
 // Utility variables
@@ -47,20 +56,27 @@ const completedTodos = computed(() =>
 
 <template>
   <Header />
-  <div class="wrapper">
-    <form action="" class="addTodo" @submit.prevent>
+  <main class="wrapper">
+    <form action="" class="add-todo" @submit.prevent>
       <Input v-model="inputValue" />
       <Button @click="handleCreateTodo" :disabled="isSubmitDisabled" />
     </form>
-    <main>
+    <section>
       <TodoListHeader :todos-count="todos.length" :completed-todos-count="completedTodos" />
 
-      <div class="todoList">
-        <Todo v-if="todos.length > 0" v-for="todo in todos" :key="todo.id" />
+      <div class="todo-list">
+        <Todo
+          v-if="todos.length > 0"
+          v-for="todo in todos"
+          :key="todo.id"
+          :todo="todo"
+          @toggle-todo="handleToggleTodoStatus"
+          @delete-todo="handleDeleteTodo"
+        />
         <Empty v-else />
       </div>
-    </main>
-  </div>
+    </section>
+  </main>
 </template>
 
 <style scoped>
@@ -74,12 +90,12 @@ const completedTodos = computed(() =>
   gap: 4rem;
 }
 
-.addTodo {
+.add-todo {
   display: flex;
   gap: 8px;
 }
 
-.todoList {
+.todo-list {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;

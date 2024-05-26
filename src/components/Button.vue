@@ -3,14 +3,14 @@ import { PhPlusCircle } from '@phosphor-icons/vue'
 </script>
 
 <template>
-  <button class="submitButton" type="submit">
+  <button class="submit-button" type="submit">
     Criar
     <PhPlusCircle :size="20" weight="bold" />
   </button>
 </template>
 
 <style scoped>
-.submitButton {
+.submit-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,12 +26,12 @@ import { PhPlusCircle } from '@phosphor-icons/vue'
   cursor: pointer;
 }
 
-.submitButton:disabled {
+.submit-button:disabled {
   filter: brightness(70%);
   cursor: not-allowed;
 }
 
-.submitButton:not(:disabled):hover {
+.submit-button:not(:disabled):hover {
   background-color: var(--green-300);
 }
 </style>
