@@ -18,12 +18,12 @@ defineProps<{
 <template>
   <header class="header">
     <div class="counter">
-      <p>Tarefas criadas</p>
+      <p>Todos created</p>
       <span>{{ todosCount }}</span>
     </div>
     <div class="counter">
-      <p>Concluídas</p>
-      <span v-if="todosCount > 0">{{ completedTodosCount + ' de ' + todosCount }}</span>
+      <p>Completed</p>
+      <span v-if="todosCount > 0">{{ completedTodosCount + ' of ' + todosCount }}</span>
       <span v-else>0</span>
     </div>
   </header>

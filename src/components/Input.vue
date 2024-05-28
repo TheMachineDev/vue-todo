@@ -16,12 +16,7 @@ function updateValue(e: Event) {
 </script>
 
 <template>
-  <input
-    class="form-input"
-    placeholder="Adicione uma tarefa"
-    :value="modelValue"
-    @input="updateValue"
-  />
+  <input class="form-input" placeholder="Add a todo" :value="modelValue" @input="updateValue" />
 </template>
 
 <style scoped>

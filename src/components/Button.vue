@@ -4,7 +4,7 @@ import { PhPlusCircle } from '@phosphor-icons/vue'
 
 <template>
   <button class="submit-button" type="submit">
-    Criar
+    Add
     <PhPlusCircle :size="20" weight="bold" />
   </button>
 </template>

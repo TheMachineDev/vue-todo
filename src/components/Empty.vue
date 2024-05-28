@@ -2,8 +2,8 @@
   <div class="empty">
     <img src="../assets/clipboard.svg" alt="Clipboard icon" />
     <span>
-      <b>Você ainda não tem tarefas cadastradas</b>
-      <p>Crie tarefas e organize seus itens a fazer</p>
+      <b>You still haven't created a todo</b>
+      <p>Create todos and organize your everyday tasks</p>
     </span>
   </div>
 </template>
